@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.box{width: 960px;height: 500px;transform-style: preserve-3d;}
+			.box1{width: 96px;height: 500px;transform-style: preserve-3d;position: absolute;transition-duration: 2s;}
+			.item{width: 96px;height: 500px;position: absolute;}
+		</style>
+	</head>
+	<body>
+		<div class="box"></div>
+	</body>
+	<script src="jquery-3.1.0.min.js"></script>
+	<script>
+		
+		for(var i=0;i<10;i++){                  
+			var box=$('<div class="box1"></div>');
+			box.appendTo('.box')
+			.css({'left':''+i*96+'px'})
+			for(var j=0;j<4;j++){				
+				$('<div class="item"></div>').appendTo(box)
+				.css({'transform':'rotateX('+j*90+'deg) translateZ(250px)'})				
+				.css({'background-image':'url(img/'+j+'.jpg)','background-position':''+i*-96+'px 0'})
+			}			
+		}
+		var h=0;
+		$('.box').click(function(){
+			h++;
+			$('.box1').css({'transform':'rotateX('+h*-90+'deg)','transition-duration': '1s'})
+			for(var k=0;k<10;k++){
+				$('.box1').eq(k).css({'transition-delay':'.'+k+'s'})     
+			}
+		})
+	</script>
+</html>
