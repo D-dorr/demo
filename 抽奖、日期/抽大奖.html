@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+*{ margin:0; padding:0}
+h3{ text-align:center; margin:100px auto 20px}
+#box{ width:500px; margin:0 auto; border:1px solid #ccc; padding:20px}
+#box .cont{ height:120px; padding:20px}
+#box .cont div{ margin-bottom:20px}
+#box p{text-align:center}
+#box button{ height:40px; width:100px; margin:5px}
+.big{ font-size:30px;}
+</style>
+
+</head>
+
+<body>
+<h3>幸运大抽奖</h3>
+<div id="box">
+    <div class="cont">
+    </div>
+    <p>
+        <button type="button">三等奖5人</button>
+        <button disabled type="button">二等奖3人</button>
+        <button disabled type="button">一等奖1人</button>
+    </p>
+</div>
+
+
+</body>
+</html>
+
+<script>
+	var students='王天义,顾晓婷,王海峰,郝硕,陈子豪,刘启伟,解慧韬,陈静远,李欢,吴嘉文,陈英隆,靳扬,梁帮凯,朱新春,胡英龙,付洛溪,杨志鹏,张芷豪,刘海伦,张冠男,赵言博,赵珊珊,屈圣凯,洪亮,成瑞峰,周方正,郑香,李振翰,王福望,史文焕,朱首峰,黄鹏刚,杜英豪,戴浩楠,安宣宣,吴佳新,李艳玲,罗诚,周秋雨,朴振龙,彭伟城,周达理,申萍,王爽,李德柱,蔡小丽,王国栋,刘国正,郝花花';
+	var stu_arr=students.split(',');
+	
+	var oBox=document.getElementById('box');
+	var oCont=oBox.children[0];	
+	var aBtn=document.getElementsByTagName('button');
+	
+	//抽取三等奖---------------------------------------
+	
+	function run(arr,n,lev,fn,end){//名单 抽奖个数 显示文字  回调  是否为“一等奖”
+		var i=0;
+		var oDiv=document.createElement('div');
+		
+		oDiv.innerHTML="获得"+lev+"等奖的有：";
+		
+		var timer=setInterval(function(){
+			var index= parseInt(Math.random()*arr.length);
+			
+			if(end){
+				oDiv.innerHTML+='<span class="big">'+arr[index]+'</span>';//最后抽一等奖
+			}else{
+				oDiv.innerHTML+=arr[index]+" ";
+			};
+			
+			arr.splice(index,1); //数组中删除已经抽出的人
+			
+			//第二种方法
+			//var man=arr.splice(index,1);
+			//oDiv.innerHTML+=man+" ";
+			
+			oCont.appendChild(oDiv);
+			console.log(index,stu_arr);
+			i++;
+			if(i==n){
+				clearInterval(timer);
+				fn && fn();
+			};
+		},500);
+	};
+	
+	//一等奖
+	aBtn[0].onclick=function(){
+		run(stu_arr,5,"三",function(){
+			aBtn[1].disabled=false;
+		});
+		this.disabled=true;
+		
+		
+	};
+	//二等奖
+	aBtn[1].onclick=function(){
+		run(stu_arr,3,"二",function(){
+			aBtn[2].disabled=false;
+		});
+		this.disabled=true;
+		
+	};
+	//三等奖
+	aBtn[2].onclick=function(){
+		run(stu_arr,1,"一",null,true);//如果是一等奖，增加额外样式
+		this.disabled=true;
+	};
+	
+	
+
+
+
+
+
+
+
+
+
+
+</script>
