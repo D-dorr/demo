@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{margin: 0;padding: 0;}
+			li{list-style: none;}
+			#box{position: relative;width: 800px;height: 500px;margin: auto;}
+			body{background: url(img/63920650_p0.png) no-repeat;background-position:top ;}
+			input{position: absolute;left: 100px;top: 220px;display: block;width: 500px;height: 35px;border: 5px double #eee;border-radius:5px ;}
+			button{width: 28px;height: 28px;border: none;background: url(img/593a07f357917_1024.png) no-repeat;position: absolute;left: 630px;top:228px;background-size: 28px;}
+			img{position: absolute;margin: auto;left: 285px;top: 67px;display: block;}
+			ul{position: absolute;left: 100px;top:265px;}
+			li{width: 510px;height: 35px;background: #EEA9B8;border-radius: 3px;color:#000 ;}
+		</style>
+	</head>
+	<script src="vue.js"></script>
+	<script src="vue-resource.js"></script>
+	<body>
+		<div id="box">
+			<img src="img/54f58PIC7G3.png" />
+			<input type="text" placeholder="请输入关键字"  v-model="val"/ >	
+			<button @click="search()"></button>
+			<ul v-show="bul">
+				<li>{{ obj.s}}</li>
+			</ul>
+		</div>
+	</body>
+	<script>
+		new Vue({
+			el:"#box",
+			data:{
+				val:"",
+				obj:{},
+				bul:false
+			},
+			methods:{
+				 search:function(){
+				 	this.$http.jsonp("https://sug.so.360.cn/suggest",{params: {"word":this.val} }).then(
+				 		function(res){
+				 			console.log(res.data);
+				 			this.obj = res.data;
+				 			this.bul = true
+				 		}
+				 		)
+				 }
+			}
+		})
+	</script>
+</html>

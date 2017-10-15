@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<style>
+		*{margin: 0;padding: 0;}
+		li{list-style: none;}
+	</style>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src='vue.js'></script>
+	<script src='vue-resource.js'></script>
+</head>
+<body>
+	<div id="box">
+		<input type="text" v-model="num" />
+		<button @click="fn">查询归属地</button>
+		
+		
+		<ul>
+			<li >省：{{ obj.province}}</li>
+			<li>运营商：{{ obj.catName }}</li>
+		</ul>
+		
+	
+	</div>
+	
+</body>
+</html>
+<script>
+	//http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=手机号
+	var vm = new Vue({
+		el: '#box',
+		data: {
+			num:'',
+			obj:{}
+		},
+		methods: {
+			fn:function(){
+				this.$http.jsonp('http://tcc.taobao.com/cc/json/mobile_tel_segment.htm',{params:{"tel":this.num}}).then(function(res){
+					console.log(res.data);
+					this.obj = res.data;
+				})
+			}
+		}
+		
+	});
+
+</script>
